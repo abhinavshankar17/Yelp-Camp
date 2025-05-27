@@ -1,0 +1,61 @@
+.starability-basic {
+    display: flex;              /* Line up child elements horizontally */
+    gap: 4px;                   /* Optional: space between stars */
+    align-items: center;        /* Vertically center stars */
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+  
+  .starability-basic > label {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    font-size: 24px;            /* Make the star visible */
+    line-height: 30px;
+    text-align: center;
+    color: gold;                /* Set star color */
+    cursor: pointer;
+    background: none;           /* Remove background image if you're using Unicode stars */
+    float: none;                /* Remove float */
+    position: relative;
+  }
+
+  .starability-basic > label:hover {
+    color: orange;
+  }
+
+  .starability-basic {
+    display: inline-block;
+    direction: rtl;
+    font-size: 2rem;
+    unicode-bidi: bidi-override;
+  }
+  
+  .starability-basic input[type="radio"] {
+    display: none;
+  }
+  
+  .starability-basic label {
+    color: #ccc;
+    cursor: pointer;
+  }
+  
+  .starability-basic label::before {
+    content: '★';
+    display: inline-block;
+    transition: color 0.2s;
+  }
+  
+  /* Hover effect: fill stars to the left */
+  .starability-basic input[type="radio"]:not(:checked) ~ label:hover,
+  .starability-basic input[type="radio"]:not(:checked) ~ label:hover ~ label {
+    color: gold;
+  }
+  
+  /* Checked state: fill selected and all left stars */
+  .starability-basic input[type="radio"]:checked ~ label {
+    color: gold;
+  }
+
+  
+    
