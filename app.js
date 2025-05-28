@@ -15,7 +15,7 @@ const flash = require('connect-flash')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user')
-const dbUrl = process.env.DB_URL
+const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp'
 
 const ExpressError = require('./utilities/ExpressError')
 const Joi = require('joi')
@@ -26,16 +26,7 @@ const reviewRoutes = require('./routes/reviews.js')
 
 const mongoose = require('mongoose')
 const campground = require('./models/campground')
-mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
-
-const store = MongoStore.create({
-    mongoUrl: dbUrl,
-    touchAfter: 24 * 60 * 60,
-    crypto: {
-        secret: 'thisshouldbeabettersecret!'
-    }
-});
-
+mongoose.connect(dbUrl)
 
 
 const db = mongoose.connection
@@ -52,6 +43,19 @@ app.use(express.urlencoded({extended:true}))
 app.use(methodOverride('_method'))
 // app.use(express.static('public'))
 app.use(express.static(path.join(__dirname, "public")));
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisshouldbeabettersecret!'
+    }
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e);
+});
+
 
 const sessionConfig = {
     secret: 'thisshouldbebetterasecret!',
