@@ -10,10 +10,12 @@ const path = require('path')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override')
 const session = require('express-session')
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user')
+const dbUrl = process.env.DB_URL
 
 const ExpressError = require('./utilities/ExpressError')
 const Joi = require('joi')
@@ -25,6 +27,14 @@ const reviewRoutes = require('./routes/reviews.js')
 const mongoose = require('mongoose')
 const campground = require('./models/campground')
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisshouldbeabettersecret!'
+    }
+});
 
 
 
